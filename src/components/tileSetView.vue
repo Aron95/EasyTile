@@ -27,7 +27,7 @@
 
 	const store = useCurrentSelection()
 	let selectedTile =  ref<Tile | null>(null)
-	const spriteSize: number = 8
+	const spriteSize: number = 16
 	let tileSet =ref<TileSet | null>(null)
 
 
