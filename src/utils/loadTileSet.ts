@@ -1,15 +1,18 @@
-export function loadSprite(file: File, tileSize: number, spriteId: number): Promise<TileSet>{
+import {Kinds} from '../types/types'    
+
+export function loadSprite(file: File, tileSize: number, tileSetId: number): Promise<TileSet>{
 	return new Promise((resolve, reject) => {
 		const image = new Image()
 		image.src =URL.createObjectURL(file)
 		image.onload= () => {
-			const tileList = _loadTile(tileSize,image.width,image.height, spriteId)
+			const tileList = _loadTile(tileSize,image.width,image.height, tileSetId)
 			const tileSet = {
 				path: file.name,
+				kind: Kinds.TileSet,
 				tileSize: tileSize,
 				tiles: tileList,
 				image: image,
-				spriteId: spriteId
+				tileSetId: tileSetId
 			}
 			resolve(tileSet)
 		}
@@ -18,7 +21,7 @@ export function loadSprite(file: File, tileSize: number, spriteId: number): Prom
 
 
 
-function _loadTile(tileSize: number, fileSizeX: number, fileSizeY: number, spriteId: number): Tile[] {
+function _loadTile(tileSize: number, fileSizeX: number, fileSizeY: number, tileSetId: number): Tile[] {
 		const rowCount: number = fileSizeY / tileSize;
 		const columnCount: number = fileSizeX/ tileSize;	
 
@@ -34,7 +37,7 @@ function _loadTile(tileSize: number, fileSizeX: number, fileSizeY: number, sprit
 			for (let column= 0; column < columnCount; column++)
 			{
 				tileList.push({
-					spriteId: spriteId,
+					tileSetId: tileSetId,
 					index:count,
 					visible: true,
 					x: xPosition,

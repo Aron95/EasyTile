@@ -2,10 +2,10 @@
 	<div class="tileSetView">
 		<h1> Hier kommt tileSetView mit dem title {{title}}</h1>
 		<input type="file" name="Upload Sprite" accept="image/*" @change="onFileSelected">
-		<Grid @selected-cell="processSelectedCell"
-			title="TileMapGrid"  
-			:tileSet="tileSet" 
-			:selected-cell="selectedCell"/>
+		<Grid @selected-tile="processSelectedCell"
+			title="TileMapGrid"
+			:tileContainer="tileSet"
+			:selectedTile="selectedTile"/>
 	</div>
 </template>
 <script setup lang="ts">
@@ -18,7 +18,7 @@
 	import {debug} from '../utils/logger'
 
 	import {ref} from 'vue'
-	import {loadSprite} from '../utils/spriteLoader'
+	import {loadSprite} from '../utils/loadTileSet'
 
 
 	defineProps<{
@@ -26,15 +26,15 @@
 	}>()
 
 	const store = useCurrentSelection()
-	let selectedCell = ref(0)
-	const spriteSize: number = 16
+	let selectedTile =  ref<Tile | null>(null)
+	const spriteSize: number = 8
 	let tileSet =ref<TileSet | null>(null)
 
 
-	function processSelectedCell(newValue: number) {
-		debug("current tile set cell: ",selectedCell)
-		selectedCell.value = newValue
-		store.currentTileSetIndex = newValue
+	function processSelectedCell(newValue: Tile) {
+		debug("current tile-set tile: ",selectedTile)
+		selectedTile.value = newValue
+		store.currentTileSetIndex = newValue.index
 	}
 
 	async function onFileSelected(event: Event) {

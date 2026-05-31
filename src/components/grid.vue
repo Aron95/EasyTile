@@ -2,10 +2,11 @@
 	<div class="grid-wrapper">
     	<div class="grid-container" 
         	:style="gridStyleContainer">
-        	<div v-for="(tile, tileIndex) in tileSet?.tiles"
+        	<div v-for="(tile, tileIndex) in tileContainer?.tiles"
             	:key="tileIndex"
-            	@click="$emit('selectedCell', tileIndex)"
-            	:class="{'selected': tileIndex === selectedCell}">
+            	@click="$emit('selectedTile', tile)"
+            	:class="{'selected': tileIndex === selectedTile?.index}"
+                class="grid-cell">
         	</div>
     	</div>
 	</div>
@@ -13,6 +14,12 @@
 
 <script setup lang="ts">
 	import type {TileSet} from '../types/tileSet'
+	import type {TileMap} from '../types/tileMap'
+	import type {Tile} from '../types/tile'
+	import {Kinds} from '../types/types'
+	import {debug} from '../utils/logger'
+
+
 	import {computed, ref} from 'vue'
 
 	/**
@@ -27,24 +34,43 @@
  	*/
 	const props = defineProps<{
 		title: string,
-		tileSet: TileSet| null,
-		selectedCell: number
+		tileContainer: TileSet| TileMap | null,
+		selectedTile: Tile | null
 	}>()
 
 	const currentTileSize = ref(50)
-	const emits = defineEmits(['selectedCell'])
+	const emits = defineEmits(['selectedTile'])
 
 	
 	const gridStyleContainer = computed(() => {
-    		if (props.tileSet?.image) {
-        	const image = props.tileSet.image
+		const container = props.tileContainer
+		debug("test	", props.tileContainer, "kind", props.tileContainer?.kind)
+  		if (!container){ 
+  			debug("Grid says no container")
+  			return undefined
+  		}
+
+		if (container.kind === Kinds.TileSet) {
+			debug("Grid says its TileSet")
+        	const image = container.image
         	return {
-        	    gridTemplateColumns: `repeat(${Math.floor(image.width / props.tileSet.tileSize)}, ${props.tileSet.	tileSize}px)`,
-        	    gridAutoRows: `${props.tileSet.tileSize}px`,
+        	    gridTemplateColumns: `repeat(${Math.floor(image.width / container.tileSize)}, ${container.tileSize}px)`,
+        	    gridAutoRows: `${props.tileContainer.tileSize}px`,
         	    backgroundImage: `url(${image.src})`,
         	    backgroundSize: '100%'
         	}
-    	}
+        		
+        	}
+
+        if (container.kind === Kinds.TileMap) {
+        	debug("Grid says its Map")
+        	return {
+        		gridTemplateColumns: `repeat(
+        			${Math.floor(container.mapSizeX)}, ${container.tileSize}px)`,
+        		gridAutoRows: `${props.tileContainer.tileSize}px`,
+        	}
+        }
+    	
 	})
 
 	//todo: repair zoom 
@@ -59,7 +85,9 @@
 <style>
 
 	.grid-cell {
-    	border: 1px solid rgba(0,0,0,0.1);
+      	outline: 1px solid rgba(0,0,0,0.1);
+      outline-offset: -1px;
+      border: none;
 	}
 
 	.selected {
@@ -74,6 +102,7 @@
 
 	.grid-container {
 		display : grid;
+		image-rendering: pixelated; 
 	}
 
 </style>

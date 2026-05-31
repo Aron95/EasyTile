@@ -1,5 +1,8 @@
+import {Kinds} from './types'
+
 export interface Tile {
-	spriteId: number,
+	kind: Kinds.Tile,
+	tileSetId: number,
 	index: number,
 	visible: boolean
 	x: number,
