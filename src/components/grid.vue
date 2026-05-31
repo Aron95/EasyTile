@@ -43,6 +43,8 @@
 
 	
 	const gridStyleContainer = computed(() => {
+		const displayScale = 4
+
 		const container = props.tileContainer
 		debug("test	", props.tileContainer, "kind", props.tileContainer?.kind)
   		if (!container){ 
@@ -54,10 +56,10 @@
 			debug("Grid says its TileSet")
         	const image = container.image
         	return {
-        	    gridTemplateColumns: `repeat(${Math.floor(image.width / container.tileSize)}, ${container.tileSize}px)`,
-        	    gridAutoRows: `${props.tileContainer.tileSize}px`,
+        	    gridTemplateColumns: `repeat(${Math.floor(image.width / container.tileSize)}, ${container.tileSize* displayScale}px)`,
+        	    gridAutoRows: `${props.tileContainer.tileSize* displayScale}px`,
         	    backgroundImage: `url(${image.src})`,
-        	    backgroundSize: '100%'
+        	    backgroundSize: `${image.width * displayScale}px ${image.height * displayScale}px`
         	}
         		
         	}
@@ -66,8 +68,8 @@
         	debug("Grid says its Map")
         	return {
         		gridTemplateColumns: `repeat(
-        			${Math.floor(container.mapSizeX)}, ${container.tileSize}px)`,
-        		gridAutoRows: `${props.tileContainer.tileSize}px`,
+        			${Math.floor(container.mapSizeX)}, ${container.tileSize*displayScale}px)`,
+        		gridAutoRows: `${props.tileContainer.tileSize* displayScale}px`,
         	}
         }
     	
@@ -85,9 +87,8 @@
 <style>
 
 	.grid-cell {
-      	outline: 1px solid rgba(0,0,0,0.1);
-      outline-offset: -1px;
-      border: none;
+      	border: 1px solid black;
+      	box-sizing: border-box
 	}
 
 	.selected {
