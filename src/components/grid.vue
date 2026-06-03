@@ -40,10 +40,9 @@
 
 	const currentTileSize = ref(50)
 	const emits = defineEmits(['selectedTile'])
-
+	const displayScale = 4
 	
 	const gridStyleContainer = computed(() => {
-		const displayScale = 4
 
 		const container = props.tileContainer
 		debug("test	", props.tileContainer, "kind", props.tileContainer?.kind)
@@ -66,10 +65,13 @@
 
         if (container.kind === Kinds.TileMap) {
         	debug("Grid says its Map")
+        	const w = container.mapSizeX * container.tileSize * displayScale
+        	const h = container.mapSizeY * container.tileSize * displayScale
         	return {
-        		gridTemplateColumns: `repeat(
-        			${Math.floor(container.mapSizeX)}, ${container.tileSize*displayScale}px)`,
-        		gridAutoRows: `${props.tileContainer.tileSize* displayScale}px`,
+        		gridTemplateColumns: `repeat(${Math.floor(container.mapSizeX)}, ${container.tileSize*displayScale}px)`,
+        		gridAutoRows: `${container.tileSize * displayScale}px`,
+        		backgroundImage: container.image ? `url(${container.image})` : undefined,
+        		backgroundSize: `${w}px ${h}px`,
         	}
         }
     	
