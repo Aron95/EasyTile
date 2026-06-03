@@ -8,8 +8,8 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
 	for (let i: number = 0; i < mapSizeX*mapSizeY; i++) {
     	tileDescriptors.push({
     		index: i,
-    		tilSetId: 0,
-    		tileSetIndex: 0,
+    		tileSetId: null,
+    		tileSetIndex: null,
     	})
 	}
 
@@ -18,6 +18,7 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
 		tileSize: tileSize,
 		mapSizeX: mapSizeX,
 		mapSizeY: mapSizeY, 
+		image:null,
 		tiles: tileDescriptors
 	}
 

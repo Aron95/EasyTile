@@ -8,11 +8,12 @@ export interface TileMap {
 	tileSize: number,
 	mapSizeX: number,
 	mapSizeY: number, 
+	image: string | null
 	tiles : TileMapDescriptor[]
 }
 
 export interface TileMapDescriptor {
-	index : number
-	tilSetId: number
-	tileSetIndex: number 
+	index : number | null
+	tileSetId: number| null
+	tileSetIndex: number| null
 }

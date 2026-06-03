@@ -31,10 +31,10 @@
 	let tileSet =ref<TileSet | null>(null)
 
 
-	function processSelectedCell(newValue: Tile) {
+	function processSelectedCell(newSelectedTile: Tile) {
 		debug("current tile-set tile: ",selectedTile)
-		selectedTile.value = newValue
-		store.currentTileSetIndex = newValue.index
+		selectedTile.value = newSelectedTile
+		store.currentTileSetTile = newSelectedTile
 	}
 
 	async function onFileSelected(event: Event) {
@@ -42,8 +42,12 @@
   		const file = input.files?.[0]
   		if (file) {
     		debug(file)
-    		tileSet.value = await loadSprite(file, spriteSize, 1)
+    		const tempTileSet = await loadSprite(file, spriteSize, 1)
+    		tileSet.value = tempTileSet
+    		store.loadedTileSets.push(tempTileSet)
   		}
+
+
 }
 
 </script>
