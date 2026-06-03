@@ -98,7 +98,7 @@
 	}
 
 	.grid-wrapper {
-		max-width: 500px;
+		max-width: 100%;
     	max-height: 400px;
 		overflow: auto;
 	}
