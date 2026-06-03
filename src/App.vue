@@ -31,7 +31,7 @@ import toolView from './components/toolView.vue'
   .container { 
     display: grid;
     height: 100vh;
-    grid-template-columns: 0.80fr 0.20fr;
+    grid-template-columns: minmax(0,0.80fr) minmax(0,0.20fr);
     grid-template-rows: 0.10fr 0.90fr;
     grid-template-areas: 
         "toolView toolView"
