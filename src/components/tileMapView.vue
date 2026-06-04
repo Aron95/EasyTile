@@ -31,7 +31,7 @@
 	function processSelectedCell(newSelectedTile: Tile) {
 		debug("current tile map cell: ", selectedTile)
 		selectedTile.value = newSelectedTile
-		store.currentTileMapTile = newSelectedTile.index
+		store.currentTileMapTile = newSelectedTile
 		editTile(newSelectedTile)		
 	}
 

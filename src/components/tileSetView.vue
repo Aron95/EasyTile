@@ -1,8 +1,8 @@
 <template>
+
 	<div class="tileSetView">
-		<h1> Hier kommt tileSetView mit dem title {{title}}</h1>
-		<input type="file" name="Upload Sprite" accept="image/*" @change="onFileSelected">
-		<Grid @selected-tile="processSelectedCell"
+		<Grid class="gridContainer"
+			@selected-tile="processSelectedCell"
 			title="TileMapGrid"
 			:tileContainer="tileSet"
 			:selectedTile="selectedTile"/>
@@ -21,15 +21,14 @@
 	import {loadSprite} from '../utils/loadTileSet'
 
 
-	defineProps<{
+	const props = defineProps<{
 		title: string,
+		tileSet: TileSet
 	}>()
 
 	const store = useCurrentSelection()
 	let selectedTile =  ref<Tile | null>(null)
 	const spriteSize: number = 16
-	let tileSet =ref<TileSet | null>(null)
-
 
 	function processSelectedCell(newSelectedTile: Tile) {
 		debug("current tile-set tile: ",selectedTile)
@@ -37,23 +36,29 @@
 		store.currentTileSetTile = newSelectedTile
 	}
 
-	async function onFileSelected(event: Event) {
-  		const input = event.target as HTMLInputElement
-  		const file = input.files?.[0]
-  		if (file) {
-    		debug(file)
-    		const tempTileSet = await loadSprite(file, spriteSize, 1)
-    		tileSet.value = tempTileSet
-    		store.loadedTileSets.push(tempTileSet)
-  		}
+ 
 
-
-}
 
 </script>
 <style>
 	.tileSetView {
 		background-color: lightgray;
+	}
+
+	.gridContainer {
+		grid-area: gridContainer;
+
+	}
+	.tilSetName {
+		grid-area: tileSetName;
+	}
+
+	.tileSetView {
+		grid-template-columns: minmax(0, 0.20fr)minmax(0, 0.80fr);
+		grid-template-rows: 0.08fr, 0.92fr;
+		grid-template-areas: 
+			"tilSetName ."
+			"gridContainer gridContainer"
 	}
 
 </style>
