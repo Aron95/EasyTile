@@ -13,7 +13,6 @@ export interface TileMap {
 }
 
 export interface TileMapDescriptor {
-	index : number | null
-	tileSetId: number| null
-	tileSetIndex: number| null
+	tileSetTileIndex : number | null // index of tile in til set
+	tileSetId: number| null // tile set id
 }

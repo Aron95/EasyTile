@@ -37,20 +37,17 @@
 
 
 	function editTile(tile: Tile) {
-
+		debug('tile for printing',tile)
 		if(store.currentTool === Tool.Brush){
 			if (!store.currentTileSetTile) return
 			tileMap.tiles[tile.index] = {
-				'index' : tile.index,
+				'tileSetTileIndex' : store.currentTileSetTile.index,
 				'tileSetId': store.currentTileSetTile.tileSetId,
-				'tileSetIndex':store.currentTileSetTile.index
 				}
 		}else if(store.currentTool === Tool.Eraser){
 			tileMap.tiles[tile.index] = {
-				'index' : tile.index,
+				'tileSetTileIndex' : null,
 				'tileSetId': null,
-				'tileSetIndex':null
-
 				}
 
 		}else {
@@ -79,16 +76,15 @@
     	ctx.imageSmoothingEnabled = false 
 
     	for (let i = 0; i < tiles.length; i++) {
-      		const currentTile = tiles[i]
-      		if (!currentTile) continue
-      		if (currentTile.tileSetIndex === null) continue
-      		if (currentTile.index === null || currentTile.tileSetId === null) continue
+      		const currentMapTile = tiles[i]
+      		if (!currentMapTile) continue
+      		if (currentMapTile.tileSetTileIndex === null || currentMapTile.tileSetId === null) continue
 		
-      		const set = tileSetList[0]
+      		const set = tileSetList[currentMapTile.tileSetId]
       		if (!set) continue
 
 
-      		const src = set.tiles[currentTile.tileSetIndex]
+      		const src = set.tiles[currentMapTile.tileSetTileIndex]
       		if (!src) continue
 		
       		const dx = (i % mapSizeX) * tileSize
