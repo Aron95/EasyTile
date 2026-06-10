@@ -18,20 +18,8 @@
 	import type {Tile} from '../types/tile'
 	import {Kinds} from '../types/types'
 	import {debug} from '../utils/logger'
-
-
 	import {computed, ref} from 'vue'
 
-	/**
- 	* Renders a grid overlay on top of a spritesheet image.
- 	* Column count is derived from image width / tile size.
- 	* Rows are created implicitly via grid-auto-rows.
- 	* 
- 	* @prop title - Name of the grid
- 	* @prop tileSet - The tileset containing the image and tile array
- 	* @prop selectedCell - Index of the currently selected cell
- 	* @emits selectedCell - Fires the index of the clicked cell
- 	*/
 	const props = defineProps<{
 		title: string,
 		tileContainer: TileSet| TileMap | null,
@@ -58,7 +46,8 @@
         	    gridTemplateColumns: `repeat(${Math.floor(image.width / container.tileSize)}, ${container.tileSize* displayScale}px)`,
         	    gridAutoRows: `${props.tileContainer.tileSize* displayScale}px`,
         	    backgroundImage: `url(${image.src})`,
-        	    backgroundSize: `${image.width * displayScale}px ${image.height * displayScale}px`
+        	    backgroundSize: `${image.width * displayScale}px ${image.height * displayScale}px`,
+        	    width:`${image.width * displayScale}px`
         	}
         		
         	}
@@ -99,7 +88,6 @@
 
 	.grid-wrapper {
 		max-width: 100%;
-    	max-height: 400px;
 		overflow: auto;
 	}
 

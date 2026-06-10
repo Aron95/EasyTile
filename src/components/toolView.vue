@@ -7,12 +7,17 @@
 		<button @click="setErase()">
 			Erase
 		</button>
+		<button @click="save()">
+			Save
+		</button>
 	</div>
 </template>
 <script setup lang="ts">
 	import { debug } from '@/utils/logger';
 	import { useCurrentSelection } from '../stores/currentSelection'
 	import {Tool} from '../types/types'
+	import {saveTileMap} from '../utils/saveTileMap'
+
 	
 	const store = useCurrentSelection()
 
@@ -27,6 +32,10 @@
 		store.currentTool = Tool.Eraser
 	}
 
+	function save(){
+		debug("Save TileMap")
+		saveTileMap()
+	}
 
 </script>
 <style scoped>

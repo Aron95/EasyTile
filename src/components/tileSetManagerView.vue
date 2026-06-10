@@ -42,6 +42,10 @@
 
 	function selectTileSet(tileSet: TileSet){
     	debug("select tileset",)
+    	if (selectedTileSet.value == tileSet.tileSetId) {
+    		selectedTileSet.value = null
+    		return
+    	}
     	selectedTileSet.value = tileSet.tileSetId
     }
 
