@@ -1,9 +1,7 @@
 import type {TileMapDescriptor} from '../types/tileMap'
 
+import {useCurrentSelection} from '../stores/currentSelection'
 
 export function saveTileMap() {
-	const store: 	import { useCurrentSelection } from '../stores/currentSelection'
-
-	
 
 }
