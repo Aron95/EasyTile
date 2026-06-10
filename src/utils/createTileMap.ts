@@ -1,5 +1,6 @@
 import type {TileMap} from  "../types/tileMap"
 import  {Kinds} from "../types/types"
+import { useCurrentSelection } from '../stores/currentSelection'
 
 
 export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: number): TileMap{
@@ -13,7 +14,7 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
     	})
 	}
 
-	return {
+	const tileMap = {
 		kind: Kinds.TileMap,
 		tileSize: tileSize,
 		mapSizeX: mapSizeX,
@@ -21,7 +22,10 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
 		image:null,
 		tiles: tileDescriptors
 	}
+	const store = useCurrentSelection()
 
+	store.tileMap = tileMap;
+	return tileMap;
 }
 
 
