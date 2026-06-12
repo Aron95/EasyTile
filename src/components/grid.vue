@@ -45,7 +45,7 @@
 		const container = props.tileContainer
 
 		debug("test	", props.tileContainer, "kind", props.tileContainer?.kind)
-  		if (!gridStyleContainer){ 
+  		if (!container){ 
   			debug("Grid says no container")
   			return undefined
   		}
@@ -65,8 +65,6 @@
 
         
         if (container.kind === Kinds.TileMap) {
-        	gridTileContainer = container.layers[store.currentLayer] // TileMap Layerts has tiles attribute for v-for
-
         	debug("Grid says its Map")
         	const w = container.mapSizeX * container.tileSize * displayScale
         	const h = container.mapSizeY * container.tileSize * displayScale
