@@ -4,7 +4,7 @@
         	:style="gridStyleContainer">
         	<div v-for="(tile, tileIndex) in tileContainer?.tiles"
             	:key="tileIndex"
-            	@click="$emit('selectedTile', tile)"
+            	@click="$emit('selectedTile', tile,tileIndex)"
             	:class="{'selected': tileIndex === selectedTile?.index}"
                 class="grid-cell">
         	</div>
@@ -19,20 +19,30 @@
 	import {Kinds} from '../types/types'
 	import {debug} from '../utils/logger'
 	import {computed, ref} from 'vue'
+	import { useCurrentSelection } from '../stores/currentSelection'
+
+	
 
 	const props = defineProps<{
 		title: string,
 		tileContainer: TileSet| TileMap | null,
 		selectedTile: Tile | null
 	}>()
+	const store = useCurrentSelection()
 
 	const currentTileSize = ref(50)
 	const emits = defineEmits(['selectedTile'])
 	const displayScale = 4
-	
-	const gridStyleContainer = computed(() => {
 
+	const tileContainer = computed(()=> {
+		if (props.tileContainer.kind === Kinds.TileSet) return props.tileContainer
+		if (props.tileContainer.kind === Kinds.TileMap) return props.tileContainer.layers[store.currentLayer] 
+	})
+
+
+	const gridStyleContainer = computed(() => {
 		const container = props.tileContainer
+
 		debug("test	", props.tileContainer, "kind", props.tileContainer?.kind)
   		if (!container){ 
   			debug("Grid says no container")
@@ -44,7 +54,7 @@
         	const image = container.image
         	return {
         	    gridTemplateColumns: `repeat(${Math.floor(image.width / container.tileSize)}, ${container.tileSize* displayScale}px)`,
-        	    gridAutoRows: `${props.tileContainer.tileSize* displayScale}px`,
+        	    gridAutoRows: `${container.tileSize* displayScale}px`,
         	    backgroundImage: `url(${image.src})`,
         	    backgroundSize: `${image.width * displayScale}px ${image.height * displayScale}px`,
         	    width:`${image.width * displayScale}px`
@@ -52,6 +62,7 @@
         		
         	}
 
+        
         if (container.kind === Kinds.TileMap) {
         	debug("Grid says its Map")
         	const w = container.mapSizeX * container.tileSize * displayScale

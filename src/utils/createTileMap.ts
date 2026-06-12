@@ -14,13 +14,17 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
     	})
 	}
 
+	const layer = {'tiles':tileDescriptors,
+					'visabil': true}
+
 	const tileMap = {
 		kind: Kinds.TileMap,
+		uuid: crypto.randomUUID(),
 		tileSize: tileSize,
 		mapSizeX: mapSizeX,
 		mapSizeY: mapSizeY, 
 		image:null,
-		tiles: tileDescriptors
+		layers: [layer]
 	}
 	const store = useCurrentSelection()
 
