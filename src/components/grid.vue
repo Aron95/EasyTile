@@ -33,7 +33,6 @@
 	const currentTileSize = ref(50)
 	const emits = defineEmits(['selectedTile'])
 	const displayScale = 4
-	let gridTileContainer: TileSet| TileMap | null = null
 
 	const tileContainer = computed(()=> {
 		if (props.tileContainer.kind === Kinds.TileSet) return props.tileContainer
