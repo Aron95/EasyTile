@@ -2,7 +2,7 @@
 	<div class="tileSetWrapper">
 		<input type="file" name="Upload Sprite" accept="image/*" @change="onFileSelected">
 
-		<div v-for="loadedTileSet in store.loadedTileSets">
+		<div v-for="loadedTileSet,index in store.loadedTileSets">
 			<h1 class="tileSetName"
 			@click="selectTileSet(loadedTileSet)">
 			{{loadedTileSet.path}} 

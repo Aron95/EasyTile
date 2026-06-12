@@ -30,7 +30,7 @@
 	let selectedTile =  ref<Tile | null>(null)
 	const spriteSize: number = 16
 
-	function processSelectedCell(newSelectedTile: Tile) {
+	function processSelectedCell(newSelectedTile: Tile, tileIndex: number) {
 		debug("current tile-set tile: ",selectedTile)
 		selectedTile.value = newSelectedTile
 		store.currentTileSetTile = newSelectedTile

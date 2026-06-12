@@ -28,24 +28,24 @@
 
 	let tileCanvas = ref<HTMLCanvasElement | null>(null)
 
-	function processSelectedCell(newSelectedTile: Tile) {
+	function processSelectedCell(newSelectedTile: Tile,tileIndex: number) {
 		debug("current tile map cell: ", selectedTile)
 		selectedTile.value = newSelectedTile
 		store.currentTileMapTile = newSelectedTile
-		editTile(newSelectedTile)		
+		editTile(tileIndex)		
 	}
 
 
-	function editTile(tile: Tile) {
-		debug('tile for printing',tile)
+	function editTile(tileIndex: number) {
 		if(store.currentTool === Tool.Brush){
+			debug("Paint on tile Index:", tileIndex)
 			if (!store.currentTileSetTile) return
-			tileMap.tiles[tile.index] = {
+			tileMap.layers[store.currentLayer].tiles[tileIndex] = {
 				'tileSetTileIndex' : store.currentTileSetTile.index,
 				'tileSetId': store.currentTileSetTile.tileSetId,
 				}
 		}else if(store.currentTool === Tool.Eraser){
-			tileMap.tiles[tile.index] = {
+			tileMap.layers[store.currentLayer].tiles[tileIndex] = {
 				'tileSetTileIndex' : null,
 				'tileSetId': null,
 				}
@@ -66,7 +66,7 @@
 
 	function renderMap(tileMap: TileMap){
 		const tileSetList: TileSet[] = store.loadedTileSets
-		const { tileSize, mapSizeX, mapSizeY, tiles } = tileMap
+		const { tileSize, mapSizeX, mapSizeY, layers } = tileMap
 
     	const canvas = document.createElement('canvas')
     	canvas.width  = mapSizeX * tileSize
@@ -74,28 +74,32 @@
 		
 		const ctx = canvas.getContext('2d')!
     	ctx.imageSmoothingEnabled = false 
+    	for (let i = 0; i < layers.length; i++){
+    		if(!layers[i].visabil) continue;
+    		const tiles = layers[i].tiles
 
-    	for (let i = 0; i < tiles.length; i++) {
-      		const currentMapTile = tiles[i]
-      		if (!currentMapTile) continue
-      		if (currentMapTile.tileSetTileIndex === null || currentMapTile.tileSetId === null) continue
-		
-      		const set = tileSetList[currentMapTile.tileSetId]
-      		if (!set) continue
-
-
-      		const src = set.tiles[currentMapTile.tileSetTileIndex]
-      		if (!src) continue
-		
-      		const dx = (i % mapSizeX) * tileSize
-      		const dy = Math.floor(i / mapSizeX) * tileSize
-  		
-      		ctx.drawImage(
-      		  set.image,
-      		  src.x, src.y, set.tileSize, set.tileSize,   // Quelle im Tileset
-      		  dx, dy, tileSize, tileSize                  // Ziel auf der Map
-      		)
-    	}
+    		for (let i = 0; i < tiles.length; i++) {
+      			const currentMapTile = tiles[i]
+      			if (!currentMapTile) continue
+      			if (currentMapTile.tileSetTileIndex === null || currentMapTile.tileSetId === null) continue
+			
+      			const set = tileSetList[currentMapTile.tileSetId]
+      			if (!set) continue
+	
+	
+      			const src = set.tiles[currentMapTile.tileSetTileIndex]
+      			if (!src) continue
+			
+      			const dx = (i % mapSizeX) * tileSize
+      			const dy = Math.floor(i / mapSizeX) * tileSize
+  			
+      			ctx.drawImage(
+      			  set.image,
+      			  src.x, src.y, set.tileSize, set.tileSize,   // Quelle im Tileset
+      			  dx, dy, tileSize, tileSize                  // Ziel auf der Map
+      			)
+    		}
+    	}	
 
     return canvas.toDataURL()
 

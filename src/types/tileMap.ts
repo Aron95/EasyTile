@@ -3,14 +3,21 @@ import type {Tile} from './tile'
 
 
 export interface TileMap {
-
-	kind: Kinds.TileMap,
-	tileSize: number,
-	mapSizeX: number,
-	mapSizeY: number, 
+	kind: Kinds.TileMap
+	tileSize: number
+	uuid:string
+	mapSizeX: number
+	mapSizeY: number
+	name: string
 	image: string | null
-	tiles : TileMapDescriptor[]
+	layers : Layer[]
 }
+
+export interface Layer {
+	tiles: TileMapDescriptor
+	visabil: bool
+}
+
 
 export interface TileMapDescriptor {
 	tileSetTileIndex : number | null // index of tile in til set
