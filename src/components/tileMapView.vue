@@ -45,6 +45,8 @@
 				'tileSetId': store.currentTileSetTile.tileSetId,
 				}
 		}else if(store.currentTool === Tool.Eraser){
+			debug("Erase on layer: ", store.currentLayer)
+			debug("Tile Index: ", tileIndex)
 			tileMap.layers[store.currentLayer].tiles[tileIndex] = {
 				'tileSetTileIndex' : null,
 				'tileSetId': null,
@@ -75,7 +77,7 @@
 		const ctx = canvas.getContext('2d')!
     	ctx.imageSmoothingEnabled = false 
     	for (let i = 0; i < layers.length; i++){
-    		if(!layers[i].visabil) continue;
+    		if(!layers[i].visible) continue;
     		const tiles = layers[i].tiles
 
     		for (let i = 0; i < tiles.length; i++) {

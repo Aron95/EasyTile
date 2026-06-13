@@ -15,7 +15,7 @@ export interface TileMap {
 
 export interface Layer {
 	tiles: TileMapDescriptor
-	visabil: bool
+	visible: bool
 }
 
 
