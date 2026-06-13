@@ -28,7 +28,10 @@ export function createTileMap(tileSize: number, mapSizeX: number, mapSizeY: numb
 	}
 	const store = useCurrentSelection()
 
-	store.tileMap = tileMap;
+
+	//todo push if tilemaps not empty
+	store.tileMaps = [tileMap];
+	
 	return tileMap;
 }
 

@@ -2,7 +2,8 @@
 	<div class="tileSetWrapper">
 		<input type="file" name="Upload Sprite" accept="image/*" @change="onFileSelected">
 
-		<div v-for="loadedTileSet,index in store.loadedTileSets">
+		<div v-for="loadedTileSet,index in store.loadedTileSets"
+			class="tileSetList">
 			<h1 class="tileSetName"
 			@click="selectTileSet(loadedTileSet)">
 			{{loadedTileSet.path}} 
@@ -71,5 +72,15 @@
 	
 </script>
 <style>
-	
+	.tileSetWrapper{
+		overflow: auto;
+	}
+	.tileSetList {
+		max-width: 100%;
+	}
+
+	h1 { 
+		position: sticky; 
+		top: 0;
+	}
 </style>

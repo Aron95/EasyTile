@@ -98,8 +98,7 @@
 	}
 
 	.grid-wrapper {
-		max-width: 100%;
-		overflow: auto;
+		
 	}
 
 	.grid-container {

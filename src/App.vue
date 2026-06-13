@@ -2,7 +2,7 @@
   <div class="container">
     <toolView class="toolView"/>
     <TileSetManagerView class="tileSetManagerView" title="TileSets"/>
-    <layerView class="layerView" title="Layers"/>
+    <layerView class="layerView"/>
     <tileMapView class="tileMapView"/>
   </div>
 </template>

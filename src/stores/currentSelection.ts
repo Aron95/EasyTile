@@ -10,8 +10,9 @@ export const useCurrentSelection = defineStore('useCurrentSelection', () => {
   const currentTileMapTile = ref<Tile | null>(null)
   const currentTileSetTile = ref<Tile | null>(null)
   const currentLayer = ref(0)
+  const currentTileMap = ref(0)
   const loadedTileSets = ref<TileSet[]>([])
-  const tileMap = ref<TileMap[] | null>(null)
+  const tileMaps = ref<TileMap[] | null>(null)
 
-  return { currentTool, currentTileMapTile, currentLayer, currentTileSetTile, loadedTileSets, tileMap}
+  return { currentTool, currentTileMapTile, currentLayer, currentTileSetTile, currentTileMap, loadedTileSets, tileMaps}
 })
